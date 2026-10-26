@@ -116,27 +116,55 @@
 </div>
 
 <script>
-
     const rickrollUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    const resizeThreshold = 12;
+    const redirectDelayMs = 1800;
     let lastWidth = window.innerWidth;
     let lastHeight = window.innerHeight;
+    let resizeCount = 0;
+    let redirectTimer = null;
 
-    window.addEventListener("resize", () => {
-        const widthChange = Math.abs(window.innerWidth - lastWidth);
-        const heightChange = Math.abs(window.innerHeight - lastHeight);
+    function showWarning(message) {
+        warningBanner.innerHTML = message;
+        warningBanner.style.display = 'block';
+    }
 
-        if (widthChange > 10 || heightChange > 10) {
+    function triggerRickroll(reason) {
+        if (redirectTimer) return;
+
+        showWarning(`⚠️ <strong>SECURITY PROTOCOL:</strong> ${reason}. Compliance review detected. Redirecting to your mandatory training video in ${Math.ceil(redirectDelayMs / 1000)} second${Math.ceil(redirectDelayMs / 1000) === 1 ? '' : 's'}...`);
+
+        redirectTimer = setTimeout(() => {
             window.location.href = rickrollUrl;
-        }
-
-        lastWidth = window.innerWidth;
-        lastHeight = window.innerHeight;
-    });
+        }, redirectDelayMs);
+    }
 
     const storyBox = document.getElementById('story-box');
     const choicesBox = document.getElementById('choices-box');
     const stampBox = document.getElementById('stamp-box');
     const warningBanner = document.getElementById('warning-banner');
+
+    window.addEventListener("resize", () => {
+        const widthChange = Math.abs(window.innerWidth - lastWidth);
+        const heightChange = Math.abs(window.innerHeight - lastHeight);
+
+        if (widthChange <= 2 && heightChange <= 2) {
+            lastWidth = window.innerWidth;
+            lastHeight = window.innerHeight;
+            return;
+        }
+
+        resizeCount += 1;
+
+        if (widthChange > 60 || heightChange > 60 || resizeCount >= 2) {
+            triggerRickroll('Window resizing has triggered a compliance breach');
+        } else {
+            showWarning(`⚠️ <strong>HR NOTICE:</strong> Resize detected. Please refrain from altering the incident window. A compliance review has been initiated.`);
+        }
+
+        lastWidth = window.innerWidth;
+        lastHeight = window.innerHeight;
+    });
 
     if (sessionStorage.getItem('at_ending_screen') === 'true') {
         warningBanner.style.display = 'block';
@@ -241,8 +269,7 @@
 
                 let timeLeft = 10;
                 const actionLabel = choice.isRestart ? "RESTARTING SHIFT" : "PROCESSING VIA HR PROTOCOL";
-                btn.textContent =
-                    `${actionLabel}... ${timeLeft}s`;
+                btn.textContent = `${actionLabel}... ${timeLeft}s`;
 
                 const timer = setInterval(() => {
                     timeLeft -= 1;
