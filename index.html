@@ -117,15 +117,21 @@
 
 <script>
 
-    const threshold = 160;
-    setInterval(() => {
-        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-        
-        if (widthThreshold || heightThreshold) {
-            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    const rickrollUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+        const widthChange = Math.abs(window.innerWidth - lastWidth);
+        const heightChange = Math.abs(window.innerHeight - lastHeight);
+
+        if (widthChange > 10 || heightChange > 10) {
+            window.location.href = rickrollUrl;
         }
-    }, 1000);
+
+        lastWidth = window.innerWidth;
+        lastHeight = window.innerHeight;
+    });
 
     const storyBox = document.getElementById('story-box');
     const choicesBox = document.getElementById('choices-box');
@@ -236,3 +242,24 @@
                 let timeLeft = 10;
                 const actionLabel = choice.isRestart ? "RESTARTING SHIFT" : "PROCESSING VIA HR PROTOCOL";
                 btn.textContent =
+                    `${actionLabel}... ${timeLeft}s`;
+
+                const timer = setInterval(() => {
+                    timeLeft -= 1;
+                    btn.textContent = `${actionLabel}... ${timeLeft}s`;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        renderStep(choice.next);
+                    }
+                }, 1000);
+            };
+
+            choicesBox.appendChild(btn);
+        });
+    }
+
+    renderStep(0);
+</script>
+</body>
+</html>
