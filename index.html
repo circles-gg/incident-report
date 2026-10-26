@@ -101,7 +101,7 @@
     </div>
 
     <div id="warning-banner" class="warning-box">
-        ⚠️ <strong>HR NOTICE:</strong> Nice try attempting to reload the page during your shift review to bypass the waiting period. Your evasion attempt has been logged, and a disciplinary fee will be deducted directly from your annual bonus.
+        ⚠️ <strong>HR NOTICE:</strong> Nice try attempting to reload the page right after receiving your shift review to bypass the waiting period. Your evasion attempt has been logged, and a disciplinary fee will be deducted directly from your annual bonus.
     </div>
 
     <div id="story-box">
@@ -121,10 +121,9 @@
     const stampBox = document.getElementById('stamp-box');
     const warningBanner = document.getElementById('warning-banner');
 
-    // Check if user reloaded the page while in ending/restart state
-    if (sessionStorage.getItem('reloaded_at_end')) {
+    if (sessionStorage.getItem('at_ending_screen') === 'true') {
         warningBanner.style.display = 'block';
-        sessionStorage.removeItem('reloaded_at_end');
+        sessionStorage.removeItem('at_ending_screen');
     }
 
     const gameData = [
@@ -200,6 +199,13 @@
 
     function renderStep(index) {
         stampBox.style.display = 'none';
+
+        if (index === 4) {
+            sessionStorage.setItem('at_ending_screen', 'true');
+        } else {
+            sessionStorage.removeItem('at_ending_screen');
+        }
+
         const current = gameData.find(item => item.id === index);
         
         storyBox.textContent = current.text;
@@ -213,11 +219,6 @@
             const btn = document.createElement('button');
             btn.textContent = choice.text;
             btn.onclick = () => {
-                // If this is the ending restart choice, flag it so reloading during countdown triggers warning
-                if (choice.isRestart) {
-                    sessionStorage.setItem('reloaded_at_end', 'true');
-                }
-
                 const allButtons = choicesBox.querySelectorAll('button');
                 allButtons.forEach(b => b.disabled = true);
 
@@ -231,8 +232,7 @@
                         btn.textContent = `[${actionLabel}... (${timeLeft}s)]`;
                     } else {
                         clearInterval(countdown);
-                        // Clear the flag once countdown finishes naturally
-                        sessionStorage.removeItem('reloaded_at_end');
+                        sessionStorage.removeItem('at_ending_screen');
                         renderStep(choice.next);
                     }
                 }, 1000);
