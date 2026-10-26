@@ -117,11 +117,10 @@
 
 <script>
     const rickrollUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-    const resizeThreshold = 12;
     const redirectDelayMs = 1800;
     let lastWidth = window.innerWidth;
     let lastHeight = window.innerHeight;
-    let resizeCount = 0;
+    let initialized = false;
     let redirectTimer = null;
 
     function showWarning(message) {
@@ -132,7 +131,8 @@
     function triggerRickroll(reason) {
         if (redirectTimer) return;
 
-        showWarning(`⚠️ <strong>SECURITY PROTOCOL:</strong> ${reason}. Compliance review detected. Redirecting to your mandatory training video in ${Math.ceil(redirectDelayMs / 1000)} second${Math.ceil(redirectDelayMs / 1000) === 1 ? '' : 's'}...`);
+        const seconds = Math.ceil(redirectDelayMs / 1000);
+        showWarning(`⚠️ <strong>SECURITY PROTOCOL:</strong> ${reason}. Compliance review detected. Redirecting to your mandatory training video in ${seconds} second${seconds === 1 ? '' : 's'}...`);
 
         redirectTimer = setTimeout(() => {
             window.location.href = rickrollUrl;
@@ -145,25 +145,25 @@
     const warningBanner = document.getElementById('warning-banner');
 
     window.addEventListener("resize", () => {
-        const widthChange = Math.abs(window.innerWidth - lastWidth);
-        const heightChange = Math.abs(window.innerHeight - lastHeight);
+        const currentWidth = window.innerWidth;
+        const currentHeight = window.innerHeight;
 
-        if (widthChange <= 2 && heightChange <= 2) {
-            lastWidth = window.innerWidth;
-            lastHeight = window.innerHeight;
+        if (!initialized) {
+            lastWidth = currentWidth;
+            lastHeight = currentHeight;
+            initialized = true;
             return;
         }
 
-        resizeCount += 1;
+        const widthChange = Math.abs(currentWidth - lastWidth);
+        const heightChange = Math.abs(currentHeight - lastHeight);
 
-        if (widthChange > 60 || heightChange > 60 || resizeCount >= 2) {
+        if (widthChange > 12 || heightChange > 12) {
             triggerRickroll('Window resizing has triggered a compliance breach');
-        } else {
-            showWarning(`⚠️ <strong>HR NOTICE:</strong> Resize detected. Please refrain from altering the incident window. A compliance review has been initiated.`);
         }
 
-        lastWidth = window.innerWidth;
-        lastHeight = window.innerHeight;
+        lastWidth = currentWidth;
+        lastHeight = currentHeight;
     });
 
     if (sessionStorage.getItem('at_ending_screen') === 'true') {
