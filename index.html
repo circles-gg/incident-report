@@ -117,6 +117,7 @@
 
 <script>
     const rickrollUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    const resizeEffectDelayMs = 1200;
     let lastWidth = window.innerWidth;
     let lastHeight = window.innerHeight;
     let initialized = false;
@@ -126,6 +127,10 @@
     const stampBox = document.getElementById('stamp-box');
     const warningBanner = document.getElementById('warning-banner');
 
+    setTimeout(() => {
+        initialized = true;
+    }, resizeEffectDelayMs);
+
     window.addEventListener("resize", () => {
         const currentWidth = window.innerWidth;
         const currentHeight = window.innerHeight;
@@ -133,7 +138,6 @@
         if (!initialized) {
             lastWidth = currentWidth;
             lastHeight = currentHeight;
-            initialized = true;
             return;
         }
 
