@@ -16,7 +16,7 @@
         }
         #document {
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
             background: #ffffff;
             border: 1px solid #ccc;
             padding: 40px;
@@ -42,7 +42,7 @@
             font-size: 15px;
             line-height: 1.6;
             margin-bottom: 30px;
-            min-height: 100px;
+            min-height: 120px;
         }
         .choices {
             display: flex;
@@ -79,15 +79,15 @@
 <body>
 
 <div id="document">
-    <h1>OMNI-CORP INTERNAL INCIDENT SYSTEM</h1>
+    <h1>OMNI-CORP INTERNAL INCIDENT SYSTEM v2.0</h1>
     <div class="meta">
-        <strong>LOCATION:</strong> Sector 4 - Basement Cafeteria<br>
-        <strong>DATE:</strong> October 31 | <strong>SHIFT:</strong> Night Overtime<br>
+        <strong>LOCATION:</strong> Sector 4 - Multi-Level Nightmare<br>
+        <strong>DATE:</strong> October 31 | <strong>SHIFT:</strong> Infinite Overtime<br>
         <strong>STATUS:</strong> Mandatory Compliance
     </div>
 
     <div id="story-box">
-        Initializing incident form...
+        Initializing multi-tier incident protocols...
     </div>
 
     <div class="choices" id="choices-box">
@@ -102,10 +102,9 @@
     const choicesBox = document.getElementById('choices-box');
     const stampBox = document.getElementById('stamp-box');
 
-    let currentStep = 0;
-
     const gameData = [
         {
+            id: 0,
             text: "INCIDENT #404: The office coffee machine has ceased brewing liquid and is currently producing high-pitched philosophical poetry in ancient Sumerian. Employees are standing around holding empty mugs with existential dread.",
             choices: [
                 { text: "A. File a formal complaint to HR regarding the machine's unauthorized intellectual awakening.", next: 1 },
@@ -113,34 +112,71 @@
             ]
         },
         {
+            id: 1,
             text: "HR replies via automated memo: 'Denied. The coffee machine possesses a better work ethic than you and holds a higher performance rating this quarter. Please negotiate directly with the appliance.'",
             choices: [
-                { text: "Proceed to negotiate labor rights with an inanimate kitchen object.", next: 3 }
+                { text: "Proceed to negotiate labor rights with an inanimate kitchen object.", next: 3 },
+                { text: "Ignore the coffee machine and head to the server room instead.", next: 5 }
             ]
         },
         {
+            id: 2,
             text: "The machine accepts the sugar, spits out a perfectly formatted resignation letter with your name on it, and immediately explodes into a cloud of premium Colombian coffee beans.",
             choices: [
-                { text: "Accept your newfound unemployment with dignity and go home.", next: 4 }
+                { text: "Accept your newfound unemployment with dignity and go home.", next: 4 },
+                { text: "Inhale the coffee dust and try to run the entire office by yourself.", next: 6 }
             ]
         },
         {
+            id: 3,
             text: "You negotiate with the coffee machine. It agrees to provide espresso shots if you legally recognize it as the CEO of Omni-Corp. You now report directly to a Cuisinart device.",
             choices: [
                 { text: "Sign the corporate restructuring documents.", next: 4 }
             ]
         },
         {
+            id: 4,
             text: "END OF SHIFT REPORT: The incident has been successfully mishandled according to company protocols. Happy Halloween, Corporate Slave.",
             choices: [
                 { text: "[RESTART SHIFT]", next: 0 }
+            ]
+        },
+        {
+            id: 5,
+            text: "INCIDENT #502: The central air conditioning system has malfunctioned, reversing into 'Absolute Zero Freeze' mode. Room temperature drops to -10°C. Staff are typing emails wearing winter ski jackets and frozen gloves.",
+            choices: [
+                { text: "A. Blame it on global warming and continue typing spreadsheets.", next: 7 },
+                { text: "B. Build an office igloo inside the cubicle and declare independence.", next: 8 }
+            ]
+        },
+        {
+            id: 6,
+            text: "WANTED BY CORP: You are now high on pure caffeine vapors, managing 400 Excel sheets simultaneously while floating 2 inches off the carpet.",
+            choices: [
+                { text: "A. Demand a promotion from the ceiling fan.", next: 4 },
+                { text: "B. Crash violently into the drywall.", next: 4 }
+            ]
+        },
+        {
+            id: 7,
+            text: "Your fingers shatter into ice cubes while trying to press the Enter key. HR notes that your productivity metric actually improved by 4% due to reduced bathroom breaks.",
+            choices: [
+                { text: "Accept your fate as a corporate ice sculpture.", next: 4 }
+            ]
+        },
+        {
+            id: 8,
+            text: "You successfully establish the Republic of Igloo-Desk. Penguin consultants arrive to audit your quarterly tax reports.",
+            choices: [
+                { text: "File taxes with the penguins.", next: 4 }
             ]
         }
     ];
 
     function renderStep(index) {
         stampBox.style.display = 'none';
-        const current = gameData[index];
+        const current = gameData.find(item => item.id === index);
+        
         storyBox.textContent = current.text;
         choicesBox.innerHTML = '';
 
