@@ -59,9 +59,14 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        button:hover {
+        button:hover:not(:disabled) {
             background: #111;
             color: #fff;
+        }
+        button:disabled {
+            border-color: #999;
+            color: #999;
+            cursor: not-allowed;
         }
         .stamp {
             display: inline-block;
@@ -79,11 +84,11 @@
 <body>
 
 <div id="document">
-    <h1>OMNI-CORP INTERNAL INCIDENT SYSTEM v2.0</h1>
+    <h1>OMNI-CORP INTERNAL INCIDENT SYSTEM 2026</h1>
     <div class="meta">
         <strong>LOCATION:</strong> Sector 4 - Multi-Level Nightmare<br>
         <strong>DATE:</strong> October 31 | <strong>SHIFT:</strong> Infinite Overtime<br>
-        <strong>STATUS:</strong> Mandatory Compliance
+        <strong>STATUS:</strong> Bureaucratic Delay Active
     </div>
 
     <div id="story-box">
@@ -187,7 +192,24 @@
         current.choices.forEach(choice => {
             const btn = document.createElement('button');
             btn.textContent = choice.text;
-            btn.onclick = () => renderStep(choice.next);
+            btn.onclick = () => {
+                // Disable all buttons and show 10s delay countdown
+                const allButtons = choicesBox.querySelectorAll('button');
+                allButtons.forEach(b => b.disabled = true);
+
+                let timeLeft = 10;
+                btn.textContent = `[PROCESSING VIA HR PROTOCOL... (${timeLeft}s)]`;
+
+                const countdown = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft > 0) {
+                        btn.textContent = `[PROCESSING VIA HR PROTOCOL... (${timeLeft}s)]`;
+                    } else {
+                        clearInterval(countdown);
+                        renderStep(choice.next);
+                    }
+                }, 1000);
+            };
             choicesBox.appendChild(btn);
         });
     }
