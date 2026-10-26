@@ -118,14 +118,23 @@
 <script>
     const rickrollUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
     const resizeEffectDelayMs = 1200;
+    const devtoolsThreshold = 140;
     let lastWidth = window.innerWidth;
     let lastHeight = window.innerHeight;
     let initialized = false;
+    let triggerCount = 0;
+    let devtoolsCounter = 0;
 
     const storyBox = document.getElementById('story-box');
     const choicesBox = document.getElementById('choices-box');
     const stampBox = document.getElementById('stamp-box');
     const warningBanner = document.getElementById('warning-banner');
+
+    function triggerRickroll(reason) {
+        if (triggerCount > 0) return;
+        triggerCount += 1;
+        window.location.href = rickrollUrl;
+    }
 
     setTimeout(() => {
         initialized = true;
@@ -145,12 +154,28 @@
         const heightChange = Math.abs(currentHeight - lastHeight);
 
         if (widthChange > 12 || heightChange > 12) {
-            window.location.href = rickrollUrl;
+            triggerRickroll('Window resizing has triggered a compliance breach');
         }
 
         lastWidth = currentWidth;
         lastHeight = currentHeight;
     });
+
+    setInterval(() => {
+        if (!initialized) return;
+
+        const widthDelta = window.outerWidth - window.innerWidth;
+        const heightDelta = window.outerHeight - window.innerHeight;
+
+        if (widthDelta > devtoolsThreshold || heightDelta > devtoolsThreshold) {
+            devtoolsCounter += 1;
+            if (devtoolsCounter >= 2) {
+                triggerRickroll('Developer tools were detected');
+            }
+        } else {
+            devtoolsCounter = 0;
+        }
+    }, 500);
 
     if (sessionStorage.getItem('at_ending_screen') === 'true') {
         warningBanner.style.display = 'block';
