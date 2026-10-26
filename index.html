@@ -117,27 +117,9 @@
 
 <script>
     const rickrollUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-    const redirectDelayMs = 1800;
     let lastWidth = window.innerWidth;
     let lastHeight = window.innerHeight;
     let initialized = false;
-    let redirectTimer = null;
-
-    function showWarning(message) {
-        warningBanner.innerHTML = message;
-        warningBanner.style.display = 'block';
-    }
-
-    function triggerRickroll(reason) {
-        if (redirectTimer) return;
-
-        const seconds = Math.ceil(redirectDelayMs / 1000);
-        showWarning(`⚠️ <strong>SECURITY PROTOCOL:</strong> ${reason}. Compliance review detected. Redirecting to your mandatory training video in ${seconds} second${seconds === 1 ? '' : 's'}...`);
-
-        redirectTimer = setTimeout(() => {
-            window.location.href = rickrollUrl;
-        }, redirectDelayMs);
-    }
 
     const storyBox = document.getElementById('story-box');
     const choicesBox = document.getElementById('choices-box');
@@ -148,7 +130,6 @@
         const currentWidth = window.innerWidth;
         const currentHeight = window.innerHeight;
 
-        // Ignore the initial page-load resize event; only react to real user-triggered resizing.
         if (!initialized) {
             lastWidth = currentWidth;
             lastHeight = currentHeight;
@@ -160,7 +141,7 @@
         const heightChange = Math.abs(currentHeight - lastHeight);
 
         if (widthChange > 12 || heightChange > 12) {
-            triggerRickroll('Window resizing has triggered a compliance breach');
+            window.location.href = rickrollUrl;
         }
 
         lastWidth = currentWidth;
