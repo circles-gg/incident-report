@@ -148,6 +148,7 @@
         const currentWidth = window.innerWidth;
         const currentHeight = window.innerHeight;
 
+        // Ignore the initial page-load resize event; only react to real user-triggered resizing.
         if (!initialized) {
             lastWidth = currentWidth;
             lastHeight = currentHeight;
