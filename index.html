@@ -97,7 +97,7 @@
     <div class="meta">
         <strong>LOCATION:</strong> Sector 4 - Multi-Level Nightmare<br>
         <strong>DATE:</strong> October 31 | <strong>SHIFT:</strong> Infinite Overtime<br>
-        <strong>STATUS:</strong> Bureaucratic Delay & Anti-F5 Protocol Active
+        <strong>STATUS:</strong> Bureaucratic Delay & Security Protocol Active
     </div>
 
     <div id="warning-banner" class="warning-box">
@@ -109,13 +109,24 @@
     </div>
 
     <div class="choices" id="choices-box">
-        <!-- Dynamic choices -->
+
     </div>
 
     <div id="stamp-box" class="stamp">CLOSED: CLASSIFIED NONSENSE</div>
 </div>
 
 <script>
+
+    const threshold = 160;
+    setInterval(() => {
+        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+        
+        if (widthThreshold || heightThreshold) {
+            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        }
+    }, 1000);
+
     const storyBox = document.getElementById('story-box');
     const choicesBox = document.getElementById('choices-box');
     const stampBox = document.getElementById('stamp-box');
@@ -224,26 +235,4 @@
 
                 let timeLeft = 10;
                 const actionLabel = choice.isRestart ? "RESTARTING SHIFT" : "PROCESSING VIA HR PROTOCOL";
-                btn.textContent = `[${actionLabel}... (${timeLeft}s)]`;
-
-                const countdown = setInterval(() => {
-                    timeLeft--;
-                    if (timeLeft > 0) {
-                        btn.textContent = `[${actionLabel}... (${timeLeft}s)]`;
-                    } else {
-                        clearInterval(countdown);
-                        sessionStorage.removeItem('at_ending_screen');
-                        renderStep(choice.next);
-                    }
-                }, 1000);
-            };
-            choicesBox.appendChild(btn);
-        });
-    }
-
-    // Init
-    renderStep(0);
-</script>
-
-</body>
-</html>
+                btn.textContent =
