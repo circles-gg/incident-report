@@ -79,6 +79,15 @@
             margin-top: 20px;
             display: none;
         }
+        .warning-box {
+            background: #fff3f3;
+            border-left: 4px solid #cc0000;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #900;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -88,7 +97,11 @@
     <div class="meta">
         <strong>LOCATION:</strong> Sector 4 - Multi-Level Nightmare<br>
         <strong>DATE:</strong> October 31 | <strong>SHIFT:</strong> Infinite Overtime<br>
-        <strong>STATUS:</strong> Bureaucratic Delay Active
+        <strong>STATUS:</strong> Bureaucratic Delay & Anti-F5 Protocol Active
+    </div>
+
+    <div id="warning-banner" class="warning-box">
+        ⚠️ <strong>HR NOTICE:</strong> Nice try attempting to reload the page during your shift review to bypass the waiting period. Your evasion attempt has been logged, and a disciplinary fee will be deducted directly from your annual bonus.
     </div>
 
     <div id="story-box">
@@ -106,6 +119,13 @@
     const storyBox = document.getElementById('story-box');
     const choicesBox = document.getElementById('choices-box');
     const stampBox = document.getElementById('stamp-box');
+    const warningBanner = document.getElementById('warning-banner');
+
+    // Check if user reloaded the page while in ending/restart state
+    if (sessionStorage.getItem('reloaded_at_end')) {
+        warningBanner.style.display = 'block';
+        sessionStorage.removeItem('reloaded_at_end');
+    }
 
     const gameData = [
         {
@@ -143,7 +163,7 @@
             id: 4,
             text: "END OF SHIFT REPORT: The incident has been successfully mishandled according to company protocols. Happy Halloween, Corporate Slave.",
             choices: [
-                { text: "[RESTART SHIFT]", next: 0 }
+                { text: "[RESTART SHIFT]", next: 0, isRestart: true }
             ]
         },
         {
@@ -193,19 +213,26 @@
             const btn = document.createElement('button');
             btn.textContent = choice.text;
             btn.onclick = () => {
-                // Disable all buttons and show 10s delay countdown
+                // If this is the ending restart choice, flag it so reloading during countdown triggers warning
+                if (choice.isRestart) {
+                    sessionStorage.setItem('reloaded_at_end', 'true');
+                }
+
                 const allButtons = choicesBox.querySelectorAll('button');
                 allButtons.forEach(b => b.disabled = true);
 
                 let timeLeft = 10;
-                btn.textContent = `[PROCESSING VIA HR PROTOCOL... (${timeLeft}s)]`;
+                const actionLabel = choice.isRestart ? "RESTARTING SHIFT" : "PROCESSING VIA HR PROTOCOL";
+                btn.textContent = `[${actionLabel}... (${timeLeft}s)]`;
 
                 const countdown = setInterval(() => {
                     timeLeft--;
                     if (timeLeft > 0) {
-                        btn.textContent = `[PROCESSING VIA HR PROTOCOL... (${timeLeft}s)]`;
+                        btn.textContent = `[${actionLabel}... (${timeLeft}s)]`;
                     } else {
                         clearInterval(countdown);
+                        // Clear the flag once countdown finishes naturally
+                        sessionStorage.removeItem('reloaded_at_end');
                         renderStep(choice.next);
                     }
                 }, 1000);
