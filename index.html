@@ -91,213 +91,208 @@
     </style>
 </head>
 <body>
+    <div id="document">
+        <h1>OMNI-CORP INTERNAL INCIDENT SYSTEM 2026</h1>
+        <div class="meta">
+            <strong>LOCATION:</strong> Sector 4 - Multi-Level Nightmare<br>
+            <strong>DATE:</strong> October 31 | <strong>SHIFT:</strong> Infinite Overtime<br>
+            <strong>STATUS:</strong> Bureaucratic Delay & Security Protocol Active
+        </div>
+        
+        <div id="warning-banner" class="warning-box">
+            ⚠️ <strong>HR NOTICE:</strong> Nice try attempting to reload the page right after receiving your shift review to bypass the waiting period. Your evasion attempt has been logged, and a disciplinary fee will be deducted directly from your annual bonus.
+        </div>
 
-<div id="document">
-    <h1>OMNI-CORP INTERNAL INCIDENT SYSTEM 2026</h1>
-    <div class="meta">
-        <strong>LOCATION:</strong> Sector 4 - Multi-Level Nightmare<br>
-        <strong>DATE:</strong> October 31 | <strong>SHIFT:</strong> Infinite Overtime<br>
-        <strong>STATUS:</strong> Bureaucratic Delay & Security Protocol Active
+        <div id="story-box">
+            Initializing multi-tier incident protocols...
+        </div>
+
+        <div class="choices" id="choices-box">
+        </div>
+
+        <div id="stamp-box" class="stamp">CLOSED: CLASSIFIED NONSENSE</div>
     </div>
 
-    <div id="warning-banner" class="warning-box">
-        ⚠️ <strong>HR NOTICE:</strong> Nice try attempting to reload the page right after receiving your shift review to bypass the waiting period. Your evasion attempt has been logged, and a disciplinary fee will be deducted directly from your annual bonus.
-    </div>
+    <script>
+        const rickrollUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        const resizeEffectDelayMs = 1200;
+        const devtoolsThreshold = 140;
 
-    <div id="story-box">
-        Initializing multi-tier incident protocols...
-    </div>
+        let lastWidth = window.innerWidth;
+        let lastHeight = window.innerHeight;
+        let initialized = false;
+        let triggerCount = 0;
+        let devtoolsCounter = 0;
 
-    <div class="choices" id="choices-box">
+        const storyBox = document.getElementById('story-box');
+        const choicesBox = document.getElementById('choices-box');
+        const stampBox = document.getElementById('stamp-box');
+        const warningBanner = document.getElementById('warning-banner');
 
-    </div>
+        function triggerRickroll(reason) {
+            if (triggerCount > 0) return;
+            triggerCount += 1;
+            window.location.href = rickrollUrl;
+        }
 
-    <div id="stamp-box" class="stamp">CLOSED: CLASSIFIED NONSENSE</div>
-</div>
+        setTimeout(() => {
+            initialized = true;
+        }, resizeEffectDelayMs);
 
-<script>
-    const rickrollUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-    const resizeEffectDelayMs = 1200;
-    const devtoolsThreshold = 140;
-    let lastWidth = window.innerWidth;
-    let lastHeight = window.innerHeight;
-    let initialized = false;
-    let triggerCount = 0;
-    let devtoolsCounter = 0;
+        window.addEventListener("resize", () => {
+            const currentWidth = window.innerWidth;
+            const currentHeight = window.innerHeight;
+            
+            if (!initialized) {
+                lastWidth = currentWidth;
+                lastHeight = currentHeight;
+                return;
+            }
 
-    const storyBox = document.getElementById('story-box');
-    const choicesBox = document.getElementById('choices-box');
-    const stampBox = document.getElementById('stamp-box');
-    const warningBanner = document.getElementById('warning-banner');
+            const widthChange = Math.abs(currentWidth - lastWidth);
+            const heightChange = Math.abs(currentHeight - lastHeight);
 
-    function triggerRickroll(reason) {
-        if (triggerCount > 0) return;
-        triggerCount += 1;
-        window.location.href = rickrollUrl;
-    }
+            if (widthChange > 12 || heightChange > 12) {
+                triggerRickroll('Window resizing has triggered a compliance breach');
+            }
 
-    setTimeout(() => {
-        initialized = true;
-    }, resizeEffectDelayMs);
-
-    window.addEventListener("resize", () => {
-        const currentWidth = window.innerWidth;
-        const currentHeight = window.innerHeight;
-
-        if (!initialized) {
             lastWidth = currentWidth;
             lastHeight = currentHeight;
-            return;
-        }
+        });
 
-        const widthChange = Math.abs(currentWidth - lastWidth);
-        const heightChange = Math.abs(currentHeight - lastHeight);
+        setInterval(() => {
+            if (!initialized) return;
+            
+            const widthDelta = window.outerWidth - window.innerWidth;
+            const heightDelta = window.outerHeight - window.innerHeight;
 
-        if (widthChange > 12 || heightChange > 12) {
-            triggerRickroll('Window resizing has triggered a compliance breach');
-        }
-
-        lastWidth = currentWidth;
-        lastHeight = currentHeight;
-    });
-
-    setInterval(() => {
-        if (!initialized) return;
-
-        const widthDelta = window.outerWidth - window.innerWidth;
-        const heightDelta = window.outerHeight - window.innerHeight;
-
-        if (widthDelta > devtoolsThreshold || heightDelta > devtoolsThreshold) {
-            devtoolsCounter += 1;
-            if (devtoolsCounter >= 2) {
-                triggerRickroll('Developer tools were detected');
+            if (widthDelta > devtoolsThreshold || heightDelta > devtoolsThreshold) {
+                devtoolsCounter += 1;
+                if (devtoolsCounter >= 2) {
+                    triggerRickroll('Developer tools were detected');
+                }
+            } else {
+                devtoolsCounter = 0;
             }
-        } else {
-            devtoolsCounter = 0;
-        }
-    }, 500);
+        }, 500);
 
-    if (sessionStorage.getItem('at_ending_screen') === 'true') {
-        warningBanner.style.display = 'block';
-        sessionStorage.removeItem('at_ending_screen');
-    }
-
-    const gameData = [
-        {
-            id: 0,
-            text: "INCIDENT #404: The office coffee machine has ceased brewing liquid and is currently producing high-pitched philosophical poetry in ancient Sumerian. Employees are standing around holding empty mugs with existential dread.",
-            choices: [
-                { text: "A. File a formal complaint to HR regarding the machine's unauthorized intellectual awakening.", next: 1 },
-                { text: "B. Feed it a sugar packet and ask it to write a corporate resignation letter for you.", next: 2 }
-            ]
-        },
-        {
-            id: 1,
-            text: "HR replies via automated memo: 'Denied. The coffee machine possesses a better work ethic than you and holds a higher performance rating this quarter. Please negotiate directly with the appliance.'",
-            choices: [
-                { text: "Proceed to negotiate labor rights with an inanimate kitchen object.", next: 3 },
-                { text: "Ignore the coffee machine and head to the server room instead.", next: 5 }
-            ]
-        },
-        {
-            id: 2,
-            text: "The machine accepts the sugar, spits out a perfectly formatted resignation letter with your name on it, and immediately explodes into a cloud of premium Colombian coffee beans.",
-            choices: [
-                { text: "Accept your newfound unemployment with dignity and go home.", next: 4 },
-                { text: "Inhale the coffee dust and try to run the entire office by yourself.", next: 6 }
-            ]
-        },
-        {
-            id: 3,
-            text: "You negotiate with the coffee machine. It agrees to provide espresso shots if you legally recognize it as the CEO of Omni-Corp. You now report directly to a Cuisinart device.",
-            choices: [
-                { text: "Sign the corporate restructuring documents.", next: 4 }
-            ]
-        },
-        {
-            id: 4,
-            text: "END OF SHIFT REPORT: The incident has been successfully mishandled according to company protocols. Happy Halloween, Corporate Slave.",
-            choices: [
-                { text: "[RESTART SHIFT]", next: 0, isRestart: true }
-            ]
-        },
-        {
-            id: 5,
-            text: "INCIDENT #502: The central air conditioning system has malfunctioned, reversing into 'Absolute Zero Freeze' mode. Room temperature drops to -10°C. Staff are typing emails wearing winter ski jackets and frozen gloves.",
-            choices: [
-                { text: "A. Blame it on global warming and continue typing spreadsheets.", next: 7 },
-                { text: "B. Build an office igloo inside the cubicle and declare independence.", next: 8 }
-            ]
-        },
-        {
-            id: 6,
-            text: "WANTED BY CORP: You are now high on pure caffeine vapors, managing 400 Excel sheets simultaneously while floating 2 inches off the carpet.",
-            choices: [
-                { text: "A. Demand a promotion from the ceiling fan.", next: 4 },
-                { text: "B. Crash violently into the drywall.", next: 4 }
-            ]
-        },
-        {
-            id: 7,
-            text: "Your fingers shatter into ice cubes while trying to press the Enter key. HR notes that your productivity metric actually improved by 4% due to reduced bathroom breaks.",
-            choices: [
-                { text: "Accept your fate as a corporate ice sculpture.", next: 4 }
-            ]
-        },
-        {
-            id: 8,
-            text: "You successfully establish the Republic of Igloo-Desk. Penguin consultants arrive to audit your quarterly tax reports.",
-            choices: [
-                { text: "File taxes with the penguins.", next: 4 }
-            ]
-        }
-    ];
-
-    function renderStep(index) {
-        stampBox.style.display = 'none';
-
-        if (index === 4) {
-            sessionStorage.setItem('at_ending_screen', 'true');
-        } else {
+        if (sessionStorage.getItem('at_ending_screen') === 'true') {
+            warningBanner.style.display = 'block';
             sessionStorage.removeItem('at_ending_screen');
         }
 
-        const current = gameData.find(item => item.id === index);
-        
-        storyBox.textContent = current.text;
-        choicesBox.innerHTML = '';
+        const gameData = [
+            {
+                id: 0,
+                text: "INCIDENT #404: The office coffee machine has ceased brewing liquid and is currently producing high-pitched philosophical poetry in ancient Sumerian. Employees are standing around holding empty mugs with existential dread.",
+                choices: [
+                    { text: "A. File a formal complaint to HR regarding the machine's unauthorized intellectual awakening.", next: 1 },
+                    { text: "B. Feed it a sugar packet and ask it to write a corporate resignation letter for you.", next: 2 }
+                ]
+            },
+            {
+                id: 1,
+                text: "HR replies via automated memo: 'Denied. The coffee machine possesses a better work ethic than you and holds a higher performance rating this quarter. Please negotiate directly with the appliance.'",
+                choices: [
+                    { text: "Proceed to negotiate labor rights with an inanimate kitchen object.", next: 3 },
+                    { text: "Ignore the coffee machine and head to the server room instead.", next: 5 }
+                ]
+            },
+            {
+                id: 2,
+                text: "The machine accepts the sugar, spits out a perfectly formatted resignation letter with your name on it, and immediately explodes into a cloud of premium Colombian coffee beans.",
+                choices: [
+                    { text: "Accept your newfound unemployment with dignity and go home.", next: 4 },
+                    { text: "Inhale the coffee dust and try to run the entire office by yourself.", next: 6 }
+                ]
+            },
+            {
+                id: 3,
+                text: "You negotiate with the coffee machine. It agrees to provide espresso shots if you legally recognize it as the CEO of Omni-Corp. You now report directly to a Cuisinart device.",
+                choices: [
+                    { text: "Sign the corporate restructuring documents.", next: 4 }
+                ]
+            },
+            {
+                id: 4,
+                text: "END OF SHIFT REPORT: The incident has been successfully mishandled according to company protocols. Happy Halloween, Corporate Slave.",
+                choices: [
+                    { text: "[RESTART SHIFT]", next: 0, isRestart: true }
+                ]
+            },
+            {
+                id: 5,
+                text: "INCIDENT #502: The central air conditioning system has malfunctioned, reversing into 'Absolute Zero Freeze' mode. Room temperature drops to -10°C. Staff are typing emails wearing winter ski jackets and frozen gloves.",
+                choices: [
+                    { text: "A. Blame it on global warming and continue typing spreadsheets.", next: 7 },
+                    { text: "B. Build an office igloo inside the cubicle and declare independence.", next: 8 }
+                ]
+            },
+            {
+                id: 6,
+                text: "WANTED BY CORP: You are now high on pure caffeine vapors, managing 400 Excel sheets simultaneously while floating 2 inches off the carpet.",
+                choices: [
+                    { text: "A. Demand a promotion from the ceiling fan.", next: 4 },
+                    { text: "B. Crash violently into the drywall.", next: 4 }
+                ]
+            },
+            {
+                id: 7,
+                text: "Your fingers shatter into ice cubes while trying to press the Enter key. HR notes that your productivity metric actually improved by 4% due to reduced bathroom breaks.",
+                choices: [
+                    { text: "Accept your fate as a corporate ice sculpture.", next: 4 }
+                ]
+            },
+            {
+                id: 8,
+                text: "You successfully establish the Republic of Igloo-Desk. Penguin consultants arrive to audit your quarterly tax reports.",
+                choices: [
+                    { text: "File taxes with the penguins.", next: 4 }
+                ]
+            }
+        ];
 
-        if (index === 4) {
-            stampBox.style.display = 'inline-block';
-        }
+        function renderStep(index) {
+            stampBox.style.display = 'none';
+            if (index === 4) {
+                sessionStorage.setItem('at_ending_screen', 'true');
+            } else {
+                sessionStorage.removeItem('at_ending_screen');
+            }
 
-        current.choices.forEach(choice => {
-            const btn = document.createElement('button');
-            btn.textContent = choice.text;
-            btn.onclick = () => {
-                const allButtons = choicesBox.querySelectorAll('button');
-                allButtons.forEach(b => b.disabled = true);
+            const current = gameData.find(item => item.id === index);
+            storyBox.textContent = current.text;
+            choicesBox.innerHTML = '';
 
-                let timeLeft = 10;
-                const actionLabel = choice.isRestart ? "RESTARTING SHIFT" : "PROCESSING VIA HR PROTOCOL";
-                btn.textContent = `${actionLabel}... ${timeLeft}s`;
+            if (index === 4) {
+                stampBox.style.display = 'inline-block';
+            }
 
-                const timer = setInterval(() => {
-                    timeLeft -= 1;
+            current.choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.textContent = choice.text;
+                btn.onclick = () => {
+                    const allButtons = choicesBox.querySelectorAll('button');
+                    allButtons.forEach(b => b.disabled = true);
+
+                    let timeLeft = 10;
+                    const actionLabel = choice.isRestart ? "RESTARTING SHIFT" : "PROCESSING VIA HR PROTOCOL";
                     btn.textContent = `${actionLabel}... ${timeLeft}s`;
 
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        renderStep(choice.next);
-                    }
-                }, 1000);
-            };
+                    const timer = setInterval(() => {
+                        timeLeft -= 1;
+                        btn.textContent = `${actionLabel}... ${timeLeft}s`;
+                        if (timeLeft <= 0) {
+                            clearInterval(timer);
+                            renderStep(choice.next);
+                        }
+                    }, 1000);
+                };
+                choicesBox.appendChild(btn);
+            });
+        }
 
-            choicesBox.appendChild(btn);
-        });
-    }
-
-    renderStep(0);
-</script>
+        renderStep(0);
+    </script>
 </body>
 </html>
