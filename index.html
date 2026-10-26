@@ -121,7 +121,6 @@
         let lastWidth = window.innerWidth;
         let lastHeight = window.innerHeight;
         let initialized = false;
-        let triggerCount = 0;
         let devtoolsCounter = 0;
 
         const storyBox = document.getElementById('story-box');
@@ -130,14 +129,13 @@
         const warningBanner = document.getElementById('warning-banner');
 
         function triggerRickroll(reason) {
-            if (triggerCount > 0) return;
-            triggerCount += 1;
             window.location.href = rickrollUrl;
         }
 
         setTimeout(() => {
             initialized = true;
         }, resizeEffectDelayMs);
+
 
         window.addEventListener("resize", () => {
             const currentWidth = window.innerWidth;
