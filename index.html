@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INCIDENT REPORT #31 - OMNI-CORP</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            color: #111;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+        #document {
+            width: 100%;
+            max-width: 700px;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            padding: 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 18px;
+            text-align: center;
+            border-bottom: 2px solid #111;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .meta {
+            font-size: 12px;
+            margin-bottom: 20px;
+            color: #555;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 10px;
+        }
+        #story-box {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            min-height: 100px;
+        }
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            background: #fff;
+            border: 1px solid #111;
+            padding: 12px 15px;
+            text-align: left;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #111;
+            color: #fff;
+        }
+        .stamp {
+            display: inline-block;
+            border: 3px solid #cc0000;
+            color: #cc0000;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-family: monospace;
+            transform: rotate(-5deg);
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="document">
+    <h1>OMNI-CORP INTERNAL INCIDENT SYSTEM</h1>
+    <div class="meta">
+        <strong>LOCATION:</strong> Sector 4 - Basement Cafeteria<br>
+        <strong>DATE:</strong> October 31 | <strong>SHIFT:</strong> Night Overtime<br>
+        <strong>STATUS:</strong> Mandatory Compliance
+    </div>
+
+    <div id="story-box">
+        Initializing incident form...
+    </div>
+
+    <div class="choices" id="choices-box">
+        <!-- Dynamic choices -->
+    </div>
+
+    <div id="stamp-box" class="stamp">CLOSED: CLASSIFIED NONSENSE</div>
+</div>
+
+<script>
+    const storyBox = document.getElementById('story-box');
+    const choicesBox = document.getElementById('choices-box');
+    const stampBox = document.getElementById('stamp-box');
+
+    let currentStep = 0;
+
+    const gameData = [
+        {
+            text: "INCIDENT #404: The office coffee machine has ceased brewing liquid and is currently producing high-pitched philosophical poetry in ancient Sumerian. Employees are standing around holding empty mugs with existential dread.",
+            choices: [
+                { text: "A. File a formal complaint to HR regarding the machine's unauthorized intellectual awakening.", next: 1 },
+                { text: "B. Feed it a sugar packet and ask it to write a corporate resignation letter for you.", next: 2 }
+            ]
+        },
+        {
+            text: "HR replies via automated memo: 'Denied. The coffee machine possesses a better work ethic than you and holds a higher performance rating this quarter. Please negotiate directly with the appliance.'",
+            choices: [
+                { text: "Proceed to negotiate labor rights with an inanimate kitchen object.", next: 3 }
+            ]
+        },
+        {
+            text: "The machine accepts the sugar, spits out a perfectly formatted resignation letter with your name on it, and immediately explodes into a cloud of premium Colombian coffee beans.",
+            choices: [
+                { text: "Accept your newfound unemployment with dignity and go home.", next: 4 }
+            ]
+        },
+        {
+            text: "You negotiate with the coffee machine. It agrees to provide espresso shots if you legally recognize it as the CEO of Omni-Corp. You now report directly to a Cuisinart device.",
+            choices: [
+                { text: "Sign the corporate restructuring documents.", next: 4 }
+            ]
+        },
+        {
+            text: "END OF SHIFT REPORT: The incident has been successfully mishandled according to company protocols. Happy Halloween, Corporate Slave.",
+            choices: [
+                { text: "[RESTART SHIFT]", next: 0 }
+            ]
+        }
+    ];
+
+    function renderStep(index) {
+        stampBox.style.display = 'none';
+        const current = gameData[index];
+        storyBox.textContent = current.text;
+        choicesBox.innerHTML = '';
+
+        if (index === 4) {
+            stampBox.style.display = 'inline-block';
+        }
+
+        current.choices.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.textContent = choice.text;
+            btn.onclick = () => renderStep(choice.next);
+            choicesBox.appendChild(btn);
+        });
+    }
+
+    // Init
+    renderStep(0);
+</script>
+
+</body>
+</html>
